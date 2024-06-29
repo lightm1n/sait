@@ -5,6 +5,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-image: url('https://alma-park.ru/upload/iblock/ca7/nkufqdwdvhujcx3qkwscq3lpdr9pxfah.JPG');
+  background-size: cover; /* чтобы изображение заняло весь фон */
+  background-position: center; /* чтобы изображение было центрировано */
 }
 
 code {

@@ -1,25 +1,29 @@
 import React, { useState } from 'react';
 import './form.css';
-import {validateDateOfBirth, validateFullName, validatePhoneNumber, validateEmail, validateFutureDate} from './utils.js'
+import {
+  validateDateOfBirth,
+  validateFullName,
+  validatePhoneNumber,
+  validateFutureDate,
+} from './utils.js';
 
 const MainForm = () => {
   const [fullName, setFullName] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [email, setEmail] = useState('');
-  const [futureDate, setFutureDate] = useState('');
+  const [time, setTime] = useState('');
   const [fullNameError, setFullNameError] = useState('');
   const [dateOfBirthError, setDateOfBirthError] = useState('');
   const [phoneNumberError, setPhoneNumberError] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [futureDateError, setFutureDateError] = useState('');
+  const [timeError, setTimeError] = useState('');
+  const [submitMessage, setSubmitMessage] = useState('');
 
   const handleFullNameChange = (value) => {
     setFullName(value);
     if (value.trim() === '') {
       setFullNameError('ФИО не может быть пустым');
     } else if (!validateFullName(value)) {
-      setFullNameError('Пожалуйста, введите корректное ФИО (хотя бы два слова кириллицей)');
+      setFullNameError('Пожалуйста, введите корректное ФИО');
     } else {
       setFullNameError('');
     }
@@ -55,25 +59,12 @@ const MainForm = () => {
     }
   };
 
-  const handleEmailChange = (value) => {
-    setEmail(value);
+  const handleTimeChange = (value) => {
+    setTime(value);
     if (value.trim() === '') {
-      setEmailError('Email не может быть пустым');
-    } else if (!validateEmail(value)) {
-      setEmailError('Пожалуйста, введите корректный адрес электронной почты (латиницей, с @ и .)');
+      setTimeError('Время не может быть пустым');
     } else {
-      setEmailError('');
-    }
-  };
-
-  const handleFutureDateChange = (value) => {
-    setFutureDate(value);
-    if (value.trim() === '') {
-      setFutureDateError('Дата не может быть пустой');
-    } else if (!validateFutureDate(value)) {
-      setFutureDateError('Пожалуйста, введите дату, которая как минимум следующий день от текущего');
-    } else {
-      setFutureDateError('');
+      setTimeError('');
     }
   };
 
@@ -89,11 +80,8 @@ const MainForm = () => {
       case 'phoneNumber':
         handlePhoneNumberChange(value);
         break;
-      case 'email':
-        handleEmailChange(value);
-        break;
-      case 'futureDate':
-        handleFutureDateChange(value);
+      case 'time':
+        handleTimeChange(value);
         break;
       default:
         break;
@@ -102,13 +90,26 @@ const MainForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Дополнительная проверка перед отправкой формы, если нужно
+
+
+    if (
+      !fullNameError &&
+      !dateOfBirthError &&
+      !phoneNumberError &&
+      !timeError
+    ) {
+  
+      setSubmitMessage(`Спасибо, ${fullName}! Ваши данные успешно отправлены.`);
+    } else {
+
+      alert('Пожалуйста, исправьте ошибки в форме.');
+    }
   };
 
   return (
     <main className="main">
       <form onSubmit={handleSubmit} className="form">
-        <h1>Название формы</h1>
+        <h1>Берег у моря</h1>
         <div className="formGroup">
           <input
             type="text"
@@ -116,7 +117,7 @@ const MainForm = () => {
             value={fullName}
             onChange={(e) => handleFullNameChange(e.target.value)}
             onBlur={handleBlur}
-            placeholder="Иван Иванов"
+            placeholder="Бугаев Артём"
             required
           />
           <label htmlFor="fullName" className="label sr-only">ФИО</label>
@@ -132,7 +133,7 @@ const MainForm = () => {
             placeholder="01.01.1990"
             required
           />
-          <label htmlFor="dateOfBirth" className="label sr-only">Дата рождения</label>
+          <label htmlFor="dateOfBirth"className="label sr-only">Дата рождения</label>
           {dateOfBirthError && <p className="error">{dateOfBirthError}</p>}
         </div>
         <div className="formGroup">
@@ -142,7 +143,7 @@ const MainForm = () => {
             value={phoneNumber}
             onChange={(e) => handlePhoneNumberChange(e.target.value)}
             onBlur={handleBlur}
-            placeholder="+7-900-000-00-00"
+            placeholder="+7-900-000-00-38"
             required
           />
           <label htmlFor="phoneNumber" className="label sr-only">Номер телефона</label>
@@ -150,31 +151,18 @@ const MainForm = () => {
         </div>
         <div className="formGroup">
           <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => handleEmailChange(e.target.value)}
+            type="time"
+            id="time"
+            value={time}
+            onChange={(e) => handleTimeChange(e.target.value)}
             onBlur={handleBlur}
-            placeholder="example@example.com"
-            required
           />
-          <label htmlFor="email" className="label sr-only">Электронная почта</label>
-          {emailError && <p className="error">{emailError}</p>}
-        </div>
-        <div className="formGroup">
-          <input
-            type="date"
-            id="futureDate"
-            value={futureDate}
-            onChange={(e) => handleFutureDateChange(e.target.value)}
-            onBlur={handleBlur}
-            required
-          />
-          <label htmlFor="futureDate" className="label sr-only">Будущая дата</label>
-          {futureDateError && <p className="error">{futureDateError}</p>}
+          <label htmlFor="time" className="label sr-only">Время</label>
+          {timeError && <p className="error">{timeError}</p>}
         </div>
         <button type="submit">Отправить</button>
       </form>
+      {submitMessage && <p className="success">{submitMessage}</p>}
     </main>
   );
 };
