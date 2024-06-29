@@ -32,7 +32,7 @@ const MainForm = () => {
   const handleDateOfBirthChange = (value) => {
     setDateOfBirth(value);
     if (value.trim() === '') {
-      setDateOfBirthError('Дата рождения не может быть пустой');
+      setDateOfBirthError('Дата мероприятия не может быть пустой');
     } else {
       setDateOfBirthError('');
     }
@@ -133,7 +133,7 @@ const MainForm = () => {
             placeholder="01.01.1990"
             required
           />
-          <label htmlFor="dateOfBirth"className="label sr-only">Дата рождения</label>
+          <label htmlFor="dateOfBirth"className="label sr-only">Дата мероприятия</label>
           {dateOfBirthError && <p className="error">{dateOfBirthError}</p>}
         </div>
         <div className="formGroup">
